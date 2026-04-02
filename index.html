@@ -53,18 +53,18 @@
 
     // --- Sample Data ---
     const portfolioImages = [
-      { id: 1, url: 'https://images.unsplash.com/photo-1770752609290-264c53dc54a3?q=80&w=1287&auto=format&fit=crop&q=80&w=1000', title: 'Editorial 01', category: 'Street' },
-      { id: 2, url: 'https://images.unsplash.com/photo-1683455214048-05f000adcab3?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Street 01', category: 'Portrait' },
-      { id: 3, url: 'https://images.unsplash.com/photo-1771943468863-5fee7bd91390?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Studio 01', category: 'Portrait' },
-      { id: 4, url: 'https://images.unsplash.com/photo-1733241317703-7f51a0aa90cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Editorial 02', category: 'Fashion' },
-      { id: 5, url: 'https://images.unsplash.com/photo-1696517505957-cb6b69868bb3?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Motion', category: 'Art' },
-      { id: 6, url: 'https://images.unsplash.com/photo-1732759688918-54be9ef148a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Studio 02', category: 'Fashion' },
-      { id: 7, url: 'https://images.unsplash.com/photo-1773278190465-8d009ce315a7?q=80&w=1858&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Editorial 03', category: 'Portrait' },
-      { id: 8, url: 'https://images.unsplash.com/photo-1773168862717-ee7b44f49c88?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Street 02', category: 'Art' },
-      { id: 9, url: 'https://images.unsplash.com/photo-1772554332191-73e4ac33e03d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Studio 03', category: 'Fashion' },
-      { id: 10, url: 'https://images.unsplash.com/photo-1770932713771-b54193dda5bf?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Editorial 04', category: 'Fashion' },
-      { id: 11, url: 'https://images.unsplash.com/photo-1734814934932-8a7811ba3874?q=80&w=1313&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Nature', category: 'Art' },
-      { id: 12, url: 'https://images.unsplash.com/photo-1684939368674-4f6e23493d75?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Editorial 05', category: 'Fashion' },
+      { id: 1, url: 'https://images.unsplash.com/photo-1770752609290-264c53dc54a3?q=80&w=1287&auto=format&fit=crop&q=80&w=1000', title: 'Shibuya Crossing', category: 'Street', location: "Tokyo, Japan" },
+      { id: 2, url: 'https://images.unsplash.com/photo-1683455214048-05f000adcab3?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Japanese Roofs', category: 'Street' },
+      { id: 3, url: 'https://images.unsplash.com/photo-1771943468863-5fee7bd91390?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Tokyo Tower', category: 'Street' },
+      { id: 4, url: 'https://images.unsplash.com/photo-1733241317703-7f51a0aa90cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Shibuya Crossing Night', category: 'Street' },
+      { id: 5, url: 'https://images.unsplash.com/photo-1696517505957-cb6b69868bb3?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Japanese Taxi', category: 'Street' },
+      { id: 6, url: 'https://images.unsplash.com/photo-1732759688918-54be9ef148a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Osaka', category: 'Street' },
+      { id: 7, url: 'https://images.unsplash.com/photo-1773278190465-8d009ce315a7?q=80&w=1858&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Reflections', category: 'Exoerimental' },
+      { id: 8, url: 'https://images.unsplash.com/photo-1773168862717-ee7b44f49c88?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Motion Blurred Car', category: 'Experimental' },
+      { id: 9, url: 'https://images.unsplash.com/photo-1772554332191-73e4ac33e03d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Osaka Castle', category: 'Street' },
+      { id: 10, url: 'https://images.unsplash.com/photo-1770932713771-b54193dda5bf?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Shibuya Crossing Landscape', category: 'Street' },
+      { id: 11, url: 'https://images.unsplash.com/photo-1734814934932-8a7811ba3874?q=80&w=1313&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Tokyo Tower 02', category: 'Street' },
+      { id: 12, url: 'https://images.unsplash.com/photo-1684939368674-4f6e23493d75?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', title: 'Japanese Park', category: 'Street' },
     ];
 
     function App() {
@@ -228,11 +228,11 @@
                 <div className="w-full md:w-1/2 flex flex-col justify-center">
                   <h1 className="text-3xl md:text-4xl font-light mb-8 tracking-wide">Capturing the essence of fleeting moments.</h1>
                   <div className="space-y-6 text-gray-600 font-light leading-relaxed">
-                    <p>I am a fashion and editorial photographer based in New York City. My work focuses on the intersection of modern minimalism and raw human emotion, stripping away the unnecessary to reveal the authentic core of my subjects.</p>
-                    <p>With over a decade of experience, I've collaborated with international publications, avant-garde fashion houses, and individual artists to create visual narratives that are both timeless and striking.</p>
+                    <p>I like doing photography for fun.</p>
+                    <p>4x Unsplash Editorialist</p>
                     <p className="pt-6">
-                      <span className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Selected Clients</span>
-                      Vogue, Harper's Bazaar, Kinfolk, Minimalist, Celine, Jil Sander.
+                      <span className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Why</span>
+                      I do it for me & Adrien Sanguini.
                     </p>
                   </div>
                 </div>
