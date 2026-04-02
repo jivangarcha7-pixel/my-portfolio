@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Lens | Photography Portfolio</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel for in-browser JSX compilation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#fafafa] text-gray-900 font-sans selection:bg-gray-900 selection:text-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- Inline Icon Components (Replacing lucide-react for standalone HTML) ---
+    const MenuIcon = ({size=24, strokeWidth=1.5}) => (<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>);
+    const XIcon = ({size=24, strokeWidth=1.5}) => (<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>);
+    const InstagramIcon = ({size=20, className=""}) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>);
+    const MailIcon = ({size=20, className=""}) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>);
+    const TwitterIcon = ({size=20, className=""}) => (<svg className={className} xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>);
+    const ChevronLeftIcon = ({size=48, strokeWidth=1}) => (<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>);
+    const ChevronRightIcon = ({size=48, strokeWidth=1}) => (<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>);
+
+    // --- Sample Data ---
+    const portfolioImages = [
+      { id: 1, url: 'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?auto=format&fit=crop&q=80&w=1000', title: 'Editorial 01', category: 'Fashion' },
+      { id: 2, url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000', title: 'Street 01', category: 'Portrait' },
+      { id: 3, url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=1000', title: 'Studio 01', category: 'Portrait' },
+      { id: 4, url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1000', title: 'Editorial 02', category: 'Fashion' },
+      { id: 5, url: 'https://images.unsplash.com/photo-1550614000-4b95dd2db15a?auto=format&fit=crop&q=80&w=1000', title: 'Motion', category: 'Art' },
+      { id: 6, url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=1000', title: 'Studio 02', category: 'Fashion' },
+      { id: 7, url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=1000', title: 'Editorial 03', category: 'Portrait' },
+      { id: 8, url: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=1000', title: 'Street 02', category: 'Art' },
+      { id: 9, url: 'https://images.unsplash.com/photo-1485230405346-71acb9518d9c?auto=format&fit=crop&q=80&w=1000', title: 'Studio 03', category: 'Fashion' },
+      { id: 10, url: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&q=80&w=1000', title: 'Editorial 04', category: 'Fashion' },
+      { id: 11, url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=1000', title: 'Nature', category: 'Art' },
+      { id: 12, url: 'https://images.unsplash.com/photo-1508186225823-0963cfd705f6?auto=format&fit=crop&q=80&w=1000', title: 'Editorial 05', category: 'Fashion' },
+    ];
+
+    function App() {
+      const [currentView, setCurrentView] = useState('portfolio');
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+      const [lightboxIndex, setLightboxIndex] = useState(null);
+      const [isScrolled, setIsScrolled] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      useEffect(() => {
+        const handleKeyDown = (e) => {
+          if (lightboxIndex === null) return;
+          if (e.key === 'Escape') setLightboxIndex(null);
+          if (e.key === 'ArrowLeft') showPreviousImage();
+          if (e.key === 'ArrowRight') showNextImage();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+      }, [lightboxIndex]);
+
+      const navLinks = [
+        { id: 'portfolio', label: 'Selected Works' },
+        { id: 'about', label: 'Information' },
+        { id: 'contact', label: 'Contact' }
+      ];
+
+      const handleNavClick = (view) => {
+        setCurrentView(view);
+        setIsMobileMenuOpen(false);
+        window.scrollTo(0, 0);
+      };
+
+      const openLightbox = (index) => {
+        setLightboxIndex(index);
+      };
+
+      const closeLightbox = () => {
+        setLightboxIndex(null);
+      };
+
+      const showNextImage = (e) => {
+        if(e) e.stopPropagation();
+        setLightboxIndex((prev) => (prev + 1) % portfolioImages.length);
+      };
+
+      const showPreviousImage = (e) => {
+        if(e) e.stopPropagation();
+        setLightboxIndex((prev) => (prev === 0 ? portfolioImages.length - 1 : prev - 1));
+      };
+
+      return (
+        <div>
+          {/* Navigation Header */}
+          <header 
+            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+              isScrolled ? 'bg-white/90 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-8'
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+              <div 
+                className="text-xl md:text-2xl font-light tracking-[0.2em] uppercase cursor-pointer z-50"
+                onClick={() => handleNavClick('portfolio')}
+              >
+                Aura Lens
+              </div>
+
+              <nav className="hidden md:flex gap-10">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => handleNavClick(link.id)}
+                    className={`text-sm uppercase tracking-widest transition-colors duration-300 hover:text-gray-500 ${
+                      currentView === link.id ? 'text-gray-900 font-medium' : 'text-gray-400'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </nav>
+
+              <button 
+                className="md:hidden z-50 p-2 -mr-2"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? <XIcon size={24} strokeWidth={1.5} /> : <MenuIcon size={24} strokeWidth={1.5} />}
+              </button>
+            </div>
+          </header>
+
+          {/* Fullscreen Mobile Menu */}
+          <div 
+            className={`fixed inset-0 bg-white z-30 flex flex-col justify-center items-center transition-opacity duration-500 ${
+              isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+          >
+            <div className="flex flex-col items-center gap-8">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.id)}
+                  className={`text-2xl uppercase tracking-[0.2em] transition-all duration-300 ${
+                    currentView === link.id ? 'text-gray-900' : 'text-gray-400'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+            <div className="absolute bottom-12 flex gap-6 text-gray-500">
+              <InstagramIcon size={20} className="hover:text-gray-900 cursor-pointer transition-colors" />
+              <MailIcon size={20} className="hover:text-gray-900 cursor-pointer transition-colors" />
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <main className="pt-32 pb-20 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen">
+            
+            {/* Portfolio View */}
+            {currentView === 'portfolio' && (
+              <div className="animate-fade-in">
+                <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+                  {portfolioImages.map((image, index) => (
+                    <div 
+                      key={image.id} 
+                      className="relative group overflow-hidden cursor-pointer break-inside-avoid bg-gray-100"
+                      onClick={() => openLightbox(index)}
+                    >
+                      <img 
+                        src={image.url} 
+                        alt={image.title}
+                        className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+                        <p className="text-white text-xs uppercase tracking-widest mb-1">{image.category}</p>
+                        <p className="text-white font-light tracking-wider">{image.title}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* About View */}
+            {currentView === 'about' && (
+              <div className="max-w-5xl mx-auto animate-fade-in flex flex-col md:flex-row gap-12 lg:gap-24 mt-10">
+                <div className="w-full md:w-1/2">
+                  <img 
+                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800" 
+                    alt="Photographer Portrait" 
+                    className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 object-cover"
+                  />
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                  <h1 className="text-3xl md:text-4xl font-light mb-8 tracking-wide">Capturing the essence of fleeting moments.</h1>
+                  <div className="space-y-6 text-gray-600 font-light leading-relaxed">
+                    <p>I am a fashion and editorial photographer based in New York City. My work focuses on the intersection of modern minimalism and raw human emotion, stripping away the unnecessary to reveal the authentic core of my subjects.</p>
+                    <p>With over a decade of experience, I've collaborated with international publications, avant-garde fashion houses, and individual artists to create visual narratives that are both timeless and striking.</p>
+                    <p className="pt-6">
+                      <span className="block text-xs uppercase tracking-widest text-gray-400 mb-2">Selected Clients</span>
+                      Vogue, Harper's Bazaar, Kinfolk, Minimalist, Celine, Jil Sander.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Contact View */}
+            {currentView === 'contact' && (
+              <div className="max-w-2xl mx-auto animate-fade-in mt-10 md:mt-20 text-center">
+                <h1 className="text-3xl md:text-4xl font-light mb-12 tracking-wide">Let's create something together.</h1>
+                <form className="space-y-8 text-left" onSubmit={(e) => e.preventDefault()}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-widest text-gray-500">Name</label>
+                      <input type="text" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-gray-900 transition-colors bg-transparent" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-widest text-gray-500">Email</label>
+                      <input type="email" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-gray-900 transition-colors bg-transparent" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">Message</label>
+                    <textarea rows="4" className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-gray-900 transition-colors bg-transparent resize-none"></textarea>
+                  </div>
+                  <button className="w-full md:w-auto px-12 py-4 bg-gray-900 text-white text-xs uppercase tracking-widest hover:bg-gray-800 transition-colors">
+                    Send Inquiry
+                  </button>
+                </form>
+                <div className="mt-24 pt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6">
+                  <div className="text-left">
+                    <p className="text-sm font-light text-gray-600">studio@auralens.com</p>
+                    <p className="text-sm font-light text-gray-600">+1 (555) 123-4567</p>
+                  </div>
+                  <div className="flex gap-6">
+                    <a href="#" className="text-gray-400 hover:text-gray-900 transition-colors"><InstagramIcon size={20} /></a>
+                    <a href="#" className="text-gray-400 hover:text-gray-900 transition-colors"><TwitterIcon size={20} /></a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </main>
+
+          {/* Lightbox */}
+          {lightboxIndex !== null && (
+            <div 
+              className="fixed inset-0 z-50 bg-white/95 backdrop-blur flex items-center justify-center animate-fade-in"
+              onClick={closeLightbox}
+            >
+              <button 
+                className="absolute top-6 right-6 md:top-10 md:right-10 text-gray-500 hover:text-gray-900 transition-colors p-2 z-50"
+                onClick={closeLightbox}
+              >
+                <XIcon size={32} strokeWidth={1} />
+              </button>
+
+              <button 
+                className="absolute left-4 md:left-10 text-gray-400 hover:text-gray-900 transition-colors p-4 z-50 hidden md:block"
+                onClick={showPreviousImage}
+              >
+                <ChevronLeftIcon size={48} strokeWidth={1} />
+              </button>
+
+              <button 
+                className="absolute right-4 md:right-10 text-gray-400 hover:text-gray-900 transition-colors p-4 z-50 hidden md:block"
+                onClick={showNextImage}
+              >
+                <ChevronRightIcon size={48} strokeWidth={1} />
+              </button>
+
+              <div className="relative w-full max-w-6xl max-h-[90vh] px-4 md:px-20 flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                <img 
+                  src={portfolioImages[lightboxIndex].url} 
+                  alt={portfolioImages[lightboxIndex].title}
+                  className="max-w-full max-h-[85vh] object-contain shadow-2xl"
+                />
+                <div className="mt-6 flex justify-between items-center w-full max-w-md text-center">
+                  <p className="text-xs uppercase tracking-widest text-gray-500">{portfolioImages[lightboxIndex].category}</p>
+                  <p className="text-sm font-light tracking-wide">{portfolioImages[lightboxIndex].title}</p>
+                  <p className="text-xs text-gray-400">{lightboxIndex + 1} / {portfolioImages.length}</p>
+                </div>
+              </div>
+
+              <div className="absolute bottom-10 flex gap-4 md:hidden">
+                <button onClick={showPreviousImage} className="p-2 text-gray-500"><ChevronLeftIcon size={24} /></button>
+                <button onClick={showNextImage} className="p-2 text-gray-500"><ChevronRightIcon size={24} /></button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
